@@ -1566,7 +1566,6 @@ body {
     }
 
     .user-actions {
-        flex-wrap: wrap;
         justify-content: center;
         gap: 16px;
         width: 100%;
@@ -1689,7 +1688,8 @@ body {
     }
 
     .benefits-grid {
-        grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        flex-direction: column;
         gap: 10px;
     }
 
@@ -1706,7 +1706,8 @@ body {
     }
 
     .daily-offer-container {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         gap: 15px;
     }
 
@@ -1727,7 +1728,8 @@ body {
     }
 
     .products-grid, .product-list {
-        grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        flex-direction: column;
         gap: 10px;
     }
 
@@ -1765,5 +1767,57 @@ body {
 
     .password-hint {
         font-size: 11px;
+    }
+}
+
+
+/* Estilos para menú hamburguesa */
+.hamburger-menu {
+    display: none;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.mobile-nav {
+    display: none;
+    flex-direction: column;
+    background: white;
+    padding: 10px 20px;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.mobile-nav a {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+}
+
+/* Mostrar menú en móviles */
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: block;
+    }
+
+    .header-nav{
+      display: none;
+    }
+    .categories-nav,
+    .user-actions {
+        
+        flex-direction: column;
+        background: #fff159;
+    }
+
+    .mobile-nav.active {
+        display: flex;
+        margin: 0;
+        padding: 0;
     }
 }

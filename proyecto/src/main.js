@@ -1,5 +1,5 @@
 import { supabase } from './supabase.js'
-import { mostrarCRUDProductos } from './adminProducto.js' // Función CRUD del main
+import { mostrarCRUDProductos } from './adminProducto.js' // Función CRUD del main3
 import { mostrarLogin } from './routes/login.js' // Función login del main4
 
 const app = document.getElementById('app')
@@ -243,20 +243,19 @@ function setupAuthenticatedUserNav(user) {
     `;
 
     // Agregar listener para cerrar sesión
-    logoutBtn.addEventListener('click', async () => {
-  console.log("Clic en cerrar sesión");
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error("Error al cerrar sesión:", error.message);
-      } else {
-        console.log("Sesión cerrada correctamente");
-        location.reload(); // O redirige a login si quieres
-      }
-    });
-
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async () => {
+        try {
+          await supabase.auth.signOut();
+          location.reload();
+        } catch (error) {
+          console.error('Error al cerrar sesión:', error);
+        }
+      });
     }
   }
-
+}
 
 /**
  * Configurar funcionalidad del botón admin (del main3, mejorado)

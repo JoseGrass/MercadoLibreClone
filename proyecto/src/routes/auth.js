@@ -107,7 +107,7 @@ function renderSimpleUserInfo(user) {
           await supabase.auth.signOut()
           showSuccess('Sesión cerrada correctamente')
           setTimeout(() => {
-            window.location.href = window.location.origin 
+            location.reload()
           }, 1000)
         } catch (error) {
           showError('Error al cerrar sesión')
@@ -636,7 +636,7 @@ function updateUserHeader(user) {
   if (userActions) {
     const userName = user.user_metadata?.name || user.email.split('@')[0]
     const userRole = user.user_metadata?.role || 'Usuario'
-
+    
     userActions.innerHTML = `
       <a href="#" class="user-menu">
         <i class="fas fa-user"></i> Hola, ${userName}
@@ -646,35 +646,27 @@ function updateUserHeader(user) {
       <a href="#">Mis compras</a>
       <a href="#"><i class="fas fa-shopping-cart"></i></a>
     `
-
-    // Esperar al siguiente ciclo para asegurar que el DOM se actualizó
-    setTimeout(() => {
-      const logoutBtn = document.getElementById('logoutBtn')
-      if (logoutBtn) {
-        // Evitar duplicar listeners
-        logoutBtn.replaceWith(logoutBtn.cloneNode(true))
-        const newLogoutBtn = document.getElementById('logoutBtn')
-
-        newLogoutBtn.addEventListener('click', async (e) => {
-          e.preventDefault()
-
-          if (confirm('¿Estás seguro que deseas cerrar sesión?')) {
-            try {
-              await supabase.auth.signOut()
-              showSuccess('Sesión cerrada correctamente')
-              setTimeout(() => {
-                window.location.href = window.location.origin
-              }, 1000)
-            } catch (error) {
-              showError('Error al cerrar sesión')
-            }
+    
+    const logoutBtn = document.getElementById('logoutBtn')
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async (e) => {
+        e.preventDefault()
+        
+        if (confirm('¿Estás seguro que deseas cerrar sesión?')) {
+          try {
+            await supabase.auth.signOut()
+            showSuccess('Sesión cerrada correctamente')
+            setTimeout(() => {
+              location.reload()
+            }, 1000)
+          } catch (error) {
+            showError('Error al cerrar sesión')
           }
-        })
-      }
-    }, 50)
+        }
+      })
+    }
   }
 }
-
 
 // Escuchar cambios de estado de autenticación (del auth2, mejorado)
 supabase.auth.onAuthStateChange((event, session) => {
@@ -732,17 +724,4 @@ window.togglePassword = function(inputId) {
   }
 }
 
-await supabase.auth.signOut()
-
-// Verifica que ya no haya sesión
-const { data: { session } } = await supabase.auth.getSession()
-console.log('¿Sesión eliminada?', session) // Debe ser null
-
-supabase.auth.onAuthStateChange((event, session) => {
-  console.log('Auth state changed:', event, session?.user?.email)
-})
-
-if (event === 'SIGNED_OUT') {
-  console.log('Sesión cerrada correctamente')
-}
 

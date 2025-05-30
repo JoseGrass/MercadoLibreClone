@@ -1,13 +1,570 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MercadoLibre Colombia - Envíos Gratis en el día</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-top">
+                <div class="header-left">
+                    <a href="#" class="logo">
+                        <img src="https://cccasanare.co/wp-content/uploads/2024/01/mercado-libre.png" alt="MercadoLibre" class="logo-img">
+                    </a>
+                    
+                    <div class="location-selector">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Ingresa tu <strong>ubicación</strong></span>
+                    </div>
+                </div>
+                
+                <div class="search-container">
+                    <input type="text" class="search-box" placeholder="Buscar productos, marcas y más…">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="promo-banner-header">
+                    <div class="promo-badge">ENVÍO GRATIS</div>
+                    <div class="promo-text">
+                        <span>EN TU <strong>PRIMERA COMPRA</strong></span>
+                        <small>EXCLUSIVO EN APP</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="header-nav">
+                <nav class="categories-nav">
+                    <a href="#">Categorías</a>
+                    <a href="#">Ofertas</a>
+                    <a href="#">Cupones</a>
+                    <a href="#" class="nuevo-badge">Supermercado <span class="badge-nuevo">NUEVO</span></a>
+                    <a href="#">Moda</a>
+                    <a href="#">Vender</a>
+                    <a href="#">Ayuda / PQR</a>
+                </nav>
+                
+                <div class="user-actions">
+                    <a href="#">Crea tu cuenta</a>
+                    <a href="#">Ingresa</a>
+                    <a href="#">Mis compras</a>
+                    <a href="#"><i class="fas fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Promo Banner -->
+    <div class="promo-banner">
+        <span>🎉 Envío gratis desde $ 149.000 💫 Solo por hoy 🎉</span>
+    </div>
+
+    <!-- Auth Container (COMENTADO - SISTEMA ANTERIOR DE LOGIN) -->
+    <!-- <div id="auth" style="display: none;"></div> -->
+
+    <!-- Login Modal (NUEVO SISTEMA DE LOGIN ESTILO MERCADOLIBRE) -->
+    <div id="loginModal" class="login-modal" style="display: none;">
+        <div class="login-modal-overlay"></div>
+        <div class="login-modal-content">
+            <button class="login-modal-close" id="closeLoginModal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="login-container">
+                <div class="login-left">
+                    <h2>Ingresa tu e-mail o teléfono para iniciar sesión</h2>
+                    <div class="security-info">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Tengo un problema de seguridad</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="help-link">
+                        <a href="#">Necesito ayuda</a>
+                    </div>
+                </div>
+                
+                <div class="login-right">
+                    <form id="newLoginForm" class="login-form">
+                        <div class="input-group">
+                            <label for="emailPhone">E-mail o teléfono</label>
+                            <input 
+                                type="text" 
+                                id="emailPhone" 
+                                name="emailPhone"
+                                placeholder=""
+                                required
+                                class="login-input"
+                            >
+                        </div>
+                        
+                        <button type="submit" class="login-btn-primary">
+                            Continuar
+                        </button>
+                        
+                        <div class="create-account">
+                            <a href="#" class="create-account-link" id="openRegisterModal">Crear cuenta</a>
+                        </div>
+                        
+                        <div class="divider">
+                            <span>o</span>
+                        </div>
+                        
+                        <button type="button" class="login-btn-google">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE3LjY0IDkuMjA0NTVDMTcuNjQgOC41NjY4MiAxNy41ODI3IDcuOTUyMjcgMTcuNDc2NCA3LjM2MzY0SDE5VjkuMTM2MzZIMTQuMjA5MUMxNC4zOTU1IDEwLjIxNTkgMTQuMTk1NSAxMS4yMjczIDEzLjY4IDE4LjEwOTFDMTQuOTc3MyA3LjAzNjM2IDE2LjEwNDUgNi4yNzI3MyAxNy42NCA5LjIwNDU1WiIgZmlsbD0iIzQyODVGNCIvPgo8cGF0aCBkPSJNOSAxMS43MjczQzEwLjIzNjQgMTEuNzI3MyAxMS4zNDA5IDExLjMwNDUgMTIuMjM2NCAxMC42NDA5TDEzLjY4IDE4LjEwOTFDMTIuNjc3MyAxMS43MjczIDEwLjk5MDkgMTIuNzI3MyA5IDEyLjcyNzNDNy4wMDkwOSAxMi43MjczIDUuMzIyNzMgMTEuNzI3MyA0LjMyIDEwLjEwOTFMNi40IDguMzE4MThDNi44NjM2NCA5LjY0MDkxIDcuNzk1NDUgMTAuNzI3MyA5IDEwLjcyNzNaIiBmaWxsPSIjMzRBODUzIi8+CjxwYXRoIGQ9Ik05IDMuMjcyNzNDMTAuMzQwOSAzLjI3MjczIDExLjU1NDUgMy44MDkwOSAxMi40NzI3IDQuNjY4MThMMTQuNCA2LjZDMTIuNjQgNC44NCA5LjkgNCA5IDRDNy4wMDkwOSA0IDUuMzIyNzMgNS4yNzI3MyA0LjMyIDYuMTA5MDlMNi40IDcuOTAwOTFDNi44NjM2NCA2LjU0NTQ1IDcuNzk1NDUgNS4yNzI3MyA5IDMuMjcyNzNaIiBmaWxsPSIjRkJCQzA0Ii8+Cjxwb3RoIGQ9Ik05IDcuNzI3MjdDNy4wMDkwOSA3LjcyNzI3IDUuMzIyNzMgNi43MjcyNyA0LjMyIDUuMTA5MDlMNC4zMiA1LjEwOTA5QzMuNzM2MzYgNS42ODQgMy4yNzI3MyA2LjQgMy4yNzI3MyA3LjcyNzI3QzMuMjcyNzMgNy44MTgyIDMuMzI1NDQgNy45MTczIDMuMzI1NDQgOC4wOTA5TDYuNCA4LjMxODE4QzYuODYzNjQgNy4wMDkwOSA3Ljc5NTQ1IDcuNzI3MjcgOSA3LjcyNzI3WiIgZmlsbD0iI0VCNDU0MyIvPgo8L3N2Zz4K" alt="Google" class="google-icon">
+                            <span>Iniciar sesión con Google</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal (NUEVO MODAL DE REGISTRO) -->
+    <div id="registerModal" class="login-modal" style="display: none;">
+        <div class="login-modal-overlay"></div>
+        <div class="login-modal-content">
+            <button class="login-modal-close" id="closeRegisterModal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="login-container">
+                <div class="login-left">
+                    <h2>Completa tus datos para crear tu cuenta</h2>
+                    <div class="security-info">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Tus datos están protegidos y seguros</span>
+                    </div>
+                    <div class="help-link">
+                        <a href="#">Términos y condiciones</a>
+                    </div>
+                    <div class="help-link">
+                        <a href="#">Política de privacidad</a>
+                    </div>
+                </div>
+                
+                <div class="login-right">
+                    <form id="registerForm" class="login-form">
+                        <div class="input-group">
+                            <label for="registerName">Nombre completo</label>
+                            <input 
+                                type="text" 
+                                id="registerName" 
+                                name="registerName"
+                                placeholder="Ingresa tu nombre completo"
+                                required
+                                class="login-input"
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="registerEmail">Correo electrónico</label>
+                            <input 
+                                type="email" 
+                                id="registerEmail" 
+                                name="registerEmail"
+                                placeholder="ejemplo@correo.com"
+                                required
+                                class="login-input"
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="registerBirthdate">Fecha de nacimiento</label>
+                            <input 
+                                type="date" 
+                                id="registerBirthdate" 
+                                name="registerBirthdate"
+                                required
+                                class="login-input"
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="registerPhone">Teléfono</label>
+                            <input 
+                                type="tel" 
+                                id="registerPhone" 
+                                name="registerPhone"
+                                placeholder="+57 300 123 4567"
+                                required
+                                class="login-input"
+                            >
+                        </div>
+                        
+                        <button type="submit" class="login-btn-primary">
+                            Crear cuenta
+                        </button>
+                        
+                        <div class="create-account">
+                            <span>¿Ya tienes cuenta? </span>
+                            <a href="#" class="create-account-link" id="openLoginModal">Inicia sesión</a>
+                        </div>
+                        
+                        <div class="divider">
+                            <span>o</span>
+                        </div>
+                        
+                        <button type="button" class="login-btn-google">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE3LjY0IDkuMjA0NTVDMTcuNjQgOC41NjY4MiAxNy41ODI3IDcuOTUyMjcgMTcuNDc2NCA3LjM2MzY0SDE5VjkuMTM2MzZIMTQuMjA5MUMxNC4zOTU1IDEwLjIxNTkgMTQuMTk1NSAxMS4yMjczIDEzLjY4IDE4LjEwOTFDMTQuOTc3MyA3LjAzNjM2IDE2LjEwNDUgNi4yNzI3MyAxNy42NCA5LjIwNDU1WiIgZmlsbD0iIzQyODVGNCIvPgo8cGF0aCBkPSJNOSAxMS43MjczQzEwLjIzNjQgMTEuNzI3MyAxMS4zNDA5IDExLjMwNDUgMTIuMjM2NCAxMC42NDA5TDEzLjY4IDE4LjEwOTFDMTIuNjc3MyAxMS43MjczIDEwLjk5MDkgMTIuNzI3MyA5IDEyLjcyNzNDNy4wMDkwOSAxMi43MjczIDUuMzIyNzMgMTEuNzI3MyA0LjMyIDEwLjEwOTFMNi40IDguMzE4MThDNi44NjM2NCA5LjY0MDkxIDcuNzk1NDUgMTAuNzI3MyA5IDEwLjcyNzNaIiBmaWxsPSIjMzRBODUzIi8+CjxwYXRoIGQ9Ik05IDMuMjcyNzNDMTAuMzQwOSAzLjI3MjczIDExLjU1NDUgMy44MDkwOSAxMi40NzI3IDQuNjY4MThMMTQuNCA2LjZDMTIuNjQgNC44NCA5LjkgNCA5IDRDNy4wMDkwOSA0IDUuMzIyNzMgNS4yNzI3MyA0LjMyIDYuMTA5MDlMNi40IDcuOTAwOTFDNi44NjM2NCA2LjU0NTQ1IDcuNzk1NDUgNS4yNzI3MyA5IDMuMjcyNzNaIiBmaWxsPSIjRkJCQzA0Ii8+Cjxwb3RoIGQ9Ik05IDcuNzI3MjdDNy4wMDkwOSA3LjcyNzI3IDUuMzIyNzMgNi43MjcyNyA0LjMyIDUuMTA5MDlMNC4zMiA1LjEwOTA5QzMuNzM2MzYgNS42ODQgMy4yNzI3MyA2LjQgMy4yNzI3MyA3LjcyNzI3QzMuMjcyNzMgNy44MTgyIDMuMzI1NDQgNy45MTczIDMuMzI1NDQgOC4wOTA5TDYuNCA4LjMxODE4QzYuODYzNjQgNy4wMDkwOSA3Ljc5NTQ1IDcuNzI3MjcgOSA3LjcyNzI3WiIgZmlsbD0iI0VCNDU0MyIvPgo8L3N2Zz4K" alt="Google" class="google-icon">
+                            <span>Registrarse con Google</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Hero Carousel -->
+        <section class="hero-carousel">
+            <div class="carousel-container">
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="carousel-slide slide-1">
+                        <div class="slide-content">
+                            <div class="slide-badge">6/6</div>
+                            <h1>SUPER OFERTAS</h1>
+                            <div class="slide-offers">
+                                <div class="offer-badge-main">HASTA <span class="big-number">50%</span>OFF</div>
+                                <div class="installments-badge">DESDE <span class="big-number">3</span> CUOTAS<br><small>A 0% INTERÉS</small></div>
+                            </div>
+                            <div class="slide-products">
+                                <div class="product-preview">
+                                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=180&h=120&fit=crop" alt="iPhone" class="preview-img">
+                                    <div class="price-tag">
+                                        <div class="original-price">$6.999.000</div>
+                                        <div class="discounted-price">Con descuento<br>$5.099.000</div>
+                                    </div>
+                                </div>
+                                <div class="product-preview">
+                                    <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=180&h=120&fit=crop" alt="TV" class="preview-img">
+                                    <div class="price-tag">
+                                        <div class="original-price">$2.099.900</div>
+                                        <div class="discounted-price">Con descuento<br>$1.799.900</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="brands-row">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCA0MCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwIDEwQzIwIDE1LjUyMjggMTUuNTIyOCAyMCAxMCAyMEM0LjQ3NzE1IDIwIDAgMTUuNTIyOCAwIDEwQzAgNC40NzcxNSA0LjQ3NzE1IDAgMTAgMEMxNS41MjI4IDAgMjAgNC40NzcxNSAyMCAxMFoiIGZpbGw9ImJsYWNrIi8+Cjx0ZXh0IHg9IjEwIiB5PSIxNCIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5OSUtFPC90ZXh0Pgo8L3N2Zz4K" alt="Nike" class="brand-logo">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCA0MCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMEg0MFYyMEgwVjBaIiBmaWxsPSJibGFjayIvPgo8dGV4dCB4PSIyMCIgeT0iMTQiIGZpbGw9IndoaXRlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QURJREFTPC90ZXh0Pgo8L3N2Zz4K" alt="Adidas" class="brand-logo">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCA0MCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMEg0MFYyMEgwVjBaIiBmaWxsPSJibGFjayIvPgo8dGV4dCB4PSIyMCIgeT0iMTQiIGZpbGw9IndoaXRlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UFVNQTWVC90ZXh0Pgo8L3N2Zz4K" alt="Puma" class="brand-logo">
+                            </div>
+                            <div class="terms-text">Ver TyC: https://listado.mercadolibre.com.co/ofertas/super-ofertas-6-6</div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide slide-2">
+                        <div class="slide-content">
+                            <div class="slide-badge">2/6</div>
+                            <h1>TECNOLOGÍA</h1>
+                            <div class="slide-offers">
+                                <div class="offer-badge-main">HASTA <span class="big-number">40%</span>OFF</div>
+                                <div class="installments-badge">DESDE <span class="big-number">6</span> CUOTAS<br><small>SIN INTERÉS</small></div>
+                            </div>
+                            <div class="slide-products">
+                                <div class="product-preview">
+                                    <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=180&h=120&fit=crop" alt="Laptop" class="preview-img">
+                                    <div class="price-tag">
+                                        <div class="original-price">$3.999.000</div>
+                                        <div class="discounted-price">Con descuento<br>$2.799.000</div>
+                                    </div>
+                                </div>
+                                <div class="product-preview">
+                                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=180&h=120&fit=crop" alt="Auriculares" class="preview-img">
+                                    <div class="price-tag">
+                                        <div class="original-price">$599.900</div>
+                                        <div class="discounted-price">Con descuento<br>$359.900</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="terms-text">Aprovecha estas ofertas limitadas</div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide slide-3">
+                        <div class="slide-content">
+                            <div class="slide-badge">3/6</div>
+                            <h1>ELECTRODOMÉSTICOS</h1>
+                            <div class="slide-offers">
+                                <div class="offer-badge-main">HASTA <span class="big-number">35%</span>OFF</div>
+                                <div class="installments-badge">DESDE <span class="big-number">12</span> CUOTAS<br><small>SIN INTERÉS</small></div>
+                            </div>
+                            <div class="slide-products">
+                                <div class="product-preview">
+                                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=180&h=120&fit=crop" alt="Refrigerador" class="preview-img">
+                                    <div class="price-tag">
+                                        <div class="original-price">$2.499.000</div>
+                                        <div class="discounted-price">Con descuento<br>$1.899.000</div>
+                                    </div>
+                                </div>
+                                <div class="product-preview">
+                                    <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=180&h=120&fit=crop" alt="Lavadora" class="preview-img">
+                                    <div class="price-tag">
+                                        <div class="original-price">$1.999.000</div>
+                                        <div class="discounted-price">Con descuento<br>$1.499.000</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="terms-text">Envío gratis en electrodomésticos</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="carousel-arrows prev-arrow" onclick="prevSlide()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-arrows next-arrow" onclick="nextSlide()">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <div class="carousel-nav">
+                    <div class="nav-dot active" onclick="currentSlide(1)"></div>
+                    <div class="nav-dot" onclick="currentSlide(2)"></div>
+                    <div class="nav-dot" onclick="currentSlide(3)"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Beneficios Section (Separada) -->
+        <section class="benefits-section">
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <div class="icon-container account-icon">
+                            <div class="monitor">
+                                <div class="screen">
+                                    <div class="user-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Ingresa a tu cuenta</h3>
+                    <p>Disfruta de ofertas y compra sin límites.</p>
+                    <button class="benefit-btn">Ingresar a tu cuenta</button>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <div class="icon-container location-icon">
+                            <div class="envelope">
+                                <div class="location-pin">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Ingresa tu ubicación</h3>
+                    <p>Consulta costos y tiempos de entrega.</p>
+                    <button class="benefit-btn">Ingresar ubicación</button>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <div class="icon-container payment-icon">
+                            <div class="wallet">
+                                <div class="card-slot"></div>
+                                <div class="card"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Medios de pago</h3>
+                    <p>Paga tus compras de forma rápida y segura.</p>
+                    <button class="benefit-btn">Conocer medios de pago</button>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <div class="icon-container price-icon">
+                            <div class="calculator">
+                                <div class="screen-calc"></div>
+                                <div class="dollar-sign">$</div>
+                                <div class="arrow-down">↓</div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Menos de $40.000</h3>
+                    <p>Descubre productos con precios bajos.</p>
+                    <button class="benefit-btn">Mostrar productos</button>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <div class="icon-container trending-icon">
+                            <div class="shopping-bag">
+                                <div class="bag-handle"></div>
+                                <div class="trending-symbol">📈</div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Más vendidos</h3>
+                    <p>Explora los productos que son tendencia.</p>
+                    <button class="benefit-btn">Ir a Más vendidos</button>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <div class="icon-container protection-icon">
+                            <div class="protection-box">
+                                <div class="bookmark">📋</div>
+                                <div class="checkmark">✓</div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Compra protegida</h3>
+                    <p>Puedes devolver tu compra gratis.</p>
+                    <button class="benefit-btn">Cómo funciona</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Oferta del día -->
+        <section class="daily-offer-section">
+            <div class="daily-offer-container">
+                <div class="offer-main">
+                    <h2 class="section-title">Oferta del día</h2>
+                    <div class="offer-card-large">
+                        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=200&fit=crop" alt="Smart TV Samsung" class="offer-main-image">
+                        <div class="offer-main-content">
+                            <h3>Smart Tv Samsung UN65DU8200KXZL 65" 4K UHD</h3>
+                            <div class="price-container">
+                                <span class="original-price">$ 2.799.900</span>
+                                <span class="current-price">$ 2.048.900</span>
+                                <span class="discount">26% OFF</span>
+                            </div>
+                            <p class="installments">en 12 cuotas de $ 170.742 con 0% interés</p>
+                            <p class="shipping">Envío gratis</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="offers-horizontal">
+                    <div class="offers-header">
+                        <h2 class="section-title">Ofertas</h2>
+                        <a href="#" class="see-all">Mostrar todas las ofertas</a>
+                    </div>
+                    <div class="offers-scroll" id="offersScroll">
+                        <div class="offer-item">
+                            <img src="https://images.unsplash.com/photo-1541558869434-2840d308329a?w=200&h=150&fit=crop" alt="Silla" class="offer-item-img">
+                            <div class="offer-item-content">
+                                <h4>Silla Escritorio Ergonómica Oficina Giratoria Secretarial...</h4>
+                                <div class="price-info">
+                                    <span class="old-price">$ 369.900</span>
+                                    <span class="new-price">$ 225.639</span>
+                                    <span class="discount-badge">39% OFF</span>
+                                </div>
+                                <p class="installments-small">en 3 cuotas de $ 75.213 con 0% interés</p>
+                                <p class="shipping-small">Envío gratis 🚚 FULL</p>
+                            </div>
+                        </div>
+                        <div class="offer-item">
+                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&h=150&fit=crop" alt="iPhone" class="offer-item-img">
+                            <div class="offer-item-content">
+                                <h4>iPhone 16e (128 Gb) - Negro</h4>
+                                <div class="price-info">
+                                    <span class="old-price">$ 3.999.000</span>
+                                    <span class="new-price">$ 2.748.900</span>
+                                    <span class="discount-badge">31% OFF</span>
+                                </div>
+                                <p class="installments-small">en 3 cuotas de $ 916.300 con 0% interés</p>
+                                <p class="shipping-small">Envío gratis</p>
+                            </div>
+                        </div>
+                        <div class="offer-item">
+                            <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=200&h=150&fit=crop" alt="SSD" class="offer-item-img">
+                            <div class="offer-item-content">
+                                <h4>Disco sólido SSD interno Adata Ultimate SU650...</h4>
+                                <div class="price-info">
+                                    <span class="old-price">$ 299.900</span>
+                                    <span class="new-price">$ 134.900</span>
+                                    <span class="discount-badge">55% OFF</span>
+                                </div>
+                                <p class="installments-small">en 3 cuotas de $ 44.967 con 0% interés</p>
+                                <p class="shipping-small">Envío gratis 🚚 FULL</p>
+                            </div>
+                        </div>
+                        <div class="offer-item">
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=150&fit=crop" alt="Reloj" class="offer-item-img">
+                            <div class="offer-item-content">
+                                <h4>Reloj Para Hombres Invicta Pro Diver 44708 Acero</h4>
+                                <div class="price-info">
+                                    <span class="old-price">$ 699.900</span>
+                                    <span class="new-price">$ 275.602</span>
+                                    <span class="discount-badge">69% OFF</span>
+                                </div>
+                                <p class="installments-small">en 12 cuotas de $ 22.967 con 0% interés</p>
+                                <p class="shipping-small">Envío gratis</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Grid (se mantiene el ID para integración con Supabase) -->
+        <section class="products-section">
+            <h2 class="section-title">Basado en tu última visita</h2>
+            <div class="products-grid" id="app">
+                <!-- Los productos de Supabase se cargarán aquí -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Acerca de</h3>
+                    <ul>
+                        <li><a href="#">Mercado Libre</a></li>
+                        <li><a href="#">Investor relations</a></li>
+                        <li><a href="#">Tendencias</a></li>
+                        <li><a href="#">Sustentabilidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Otros sitios</h3>
+                    <ul>
+                        <li><a href="#">Developers</a></li>
+                        <li><a href="#">Mercado Pago</a></li>
+                        <li><a href="#">Mercado Shops</a></li>
+                        <li><a href="#">Mercado Envíos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Ayuda</h3>
+                    <ul>
+                        <li><a href="#">Comprar</a></li>
+                        <li><a href="#">Vender</a></li>
+                        <li><a href="#">Resolución de problemas</a></li>
+                        <li><a href="#">Centro de seguridad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Redes sociales</h3>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright © 1999-2025 MercadoLibre Colombia LTDA.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module">
+        import { checkAuth } from './src/routes/auth.js'
+        import './src/main.js'
+        import './src/carousel.js'
+
+        // Mantener funcionalidad de auth de Supabase
+        checkAuth()
+    </script>
+</body>
 </html>

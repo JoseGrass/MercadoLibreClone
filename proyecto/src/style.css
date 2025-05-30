@@ -1,3 +1,4 @@
+/* Global Reset & Base Body Styles */
 * {
     margin: 0;
     padding: 0;
@@ -223,14 +224,12 @@ body {
 .carousel-container {
     position: relative;
     height: 400px;
-    overflow: hidden;
-    
 }
 
 .carousel-track {
     display: flex;
     transition: transform 0.5s ease;
-    height: 73%;
+    height: 100%;
 }
 
 .carousel-slide {
@@ -353,7 +352,7 @@ body {
     right: -10px;
     background: black;
     color: white;
-    padding: 16px;
+    padding: 8px 12px;
     border-radius: 6px;
     font-size: 12px;
     text-align: center;
@@ -820,19 +819,46 @@ body {
 
 .offers-scroll {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(200px, 1fr);
     gap: 15px;
-    max-height: 400px;
-    overflow-y: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 15px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.offers-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.offers-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.offers-scroll::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.offers-scroll::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 .offer-item {
     display: flex;
-    gap: 15px;
+    flex-direction: column;
+    gap: 10px;
     padding: 15px;
     border: 1px solid #f0f0f0;
     border-radius: 6px;
     transition: box-shadow 0.2s;
+    width: 200px;
+    flex-shrink: 0;
+    align-items: center;
+    text-align: center;
 }
 
 .offer-item:hover {
@@ -840,19 +866,23 @@ body {
 }
 
 .offer-item-img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
+    width: 100%;
+    max-width: 150px;
+    height: 120px;
+    object-fit: contain;
     border-radius: 4px;
-    flex-shrink: 0;
+    margin-bottom: 10px;
 }
 
 .offer-item-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .offer-item-content h4 {
-    font-size: 12px;
+    font-size: 14px;
     color: #333;
     margin-bottom: 8px;
     line-height: 1.3;
@@ -866,6 +896,7 @@ body {
 
 .price-info {
     margin-bottom: 5px;
+    width: 100%;
 }
 
 .old-price {
@@ -873,13 +904,16 @@ body {
     font-size: 11px;
     text-decoration: line-through;
     display: block;
+    margin-bottom: 2px;
 }
 
 .new-price {
     color: #333;
     font-size: 16px;
     font-weight: normal;
-    display: block;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
     margin: 2px 0;
 }
 
@@ -891,6 +925,7 @@ body {
     border-radius: 2px;
     display: inline-block;
     margin-left: 5px;
+    white-space: nowrap;
 }
 
 .installments-small {
@@ -1044,7 +1079,7 @@ body {
     font-size: 12px;
 }
 
-/* LOGIN MODAL */
+/* LOGIN MODAL STYLES */
 .login-modal {
     position: fixed;
     top: 0;
@@ -1077,6 +1112,18 @@ body {
     max-height: 90vh;
     overflow: hidden;
     animation: modalAppear 0.3s ease-out;
+}
+
+.register-modal-expanded {
+    max-width: 900px;
+    max-height: 95vh;
+    overflow-y: auto;
+}
+
+.admin-modal-content {
+    max-width: 1000px;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 @keyframes modalAppear {
@@ -1165,6 +1212,8 @@ body {
     color: #3483fa;
     text-decoration: none;
     font-size: 14px;
+    margin-bottom: 10px;
+    display: block;
 }
 
 .help-link a:hover {
@@ -1185,7 +1234,7 @@ body {
 }
 
 .input-group {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .input-group label {
@@ -1204,10 +1253,63 @@ body {
     font-size: 16px;
     transition: border-color 0.2s;
     outline: none;
+    background: white;
 }
 
 .login-input:focus {
     border-color: #3483fa;
+}
+
+.select-input {
+    background: white;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 40px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.select-input:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%233483fa' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+}
+
+.password-container {
+    position: relative;
+}
+
+.password-container .login-input {
+    padding-right: 50px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 4px;
+    font-size: 16px;
+    transition: color 0.2s;
+    z-index: 10;
+}
+
+.password-toggle:hover {
+    color: #3483fa;
+}
+
+.password-hint {
+    color: #666;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+    line-height: 1.3;
 }
 
 .login-btn-primary {
@@ -1298,10 +1400,130 @@ body {
     height: 18px;
 }
 
-/* Loading animations */
-@keyframes loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+/* Admin Panel Styles */
+#admin-panel {
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 1.5rem;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 2rem auto;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+}
+
+#admin-panel button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin: 0.25rem 0.5rem 0.5rem 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+#admin-panel button:hover {
+    background-color: #0056b3;
+}
+
+#form-container form {
+    background: white;
+    padding: 1rem 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-top: 1rem;
+}
+
+#form-container label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: #333;
+}
+
+#form-container input[type="text"],
+#form-container input[type="number"],
+#form-container input[type="url"],
+#form-container textarea {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    font-size: 1rem;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+#form-container input[type="text"]:focus,
+#form-container input[type="number"]:focus,
+#form-container input[type="url"]:focus,
+#form-container textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.5);
+}
+
+#form-container textarea {
+    min-height: 80px;
+}
+
+#form-container button[type="submit"] {
+    background-color: #28a745;
+    margin-right: 0.5rem;
+}
+
+#form-container button[type="submit"]:hover {
+    background-color: #1e7e34;
+}
+
+#form-container button[type="button"] {
+    background-color: #dc3545;
+}
+
+#form-container button[type="button"]:hover {
+    background-color: #b02a37;
+}
+
+#output {
+    white-space: pre-wrap;
+    background-color: #272822;
+    color: #f8f8f2;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 6px;
+    font-family: Consolas, monospace;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+}
+
+/* Auth form styles */
+#auth form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+#auth p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+#auth input {
+    padding: 0.3rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+#auth button {
+    background: #3483fa;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 /* Responsive */
@@ -1356,6 +1578,11 @@ body {
         margin: 20px;
     }
 
+    .register-modal-expanded {
+        max-height: 95vh;
+        overflow-y: auto;
+    }
+
     .login-container {
         grid-template-columns: 1fr;
         min-height: auto;
@@ -1387,6 +1614,11 @@ body {
 
     .carousel-container {
         height: 350px;
+    }
+
+    .carousel-track {
+        height: 100%;
+        overflow: hidden;
     }
 
     .slide-content {
@@ -1501,5 +1733,37 @@ body {
 
     .main-container {
         padding: 0 20px;
+    }
+
+    .admin-modal-content {
+        max-width: 95%;
+        margin: 10px;
+    }
+
+    #admin-panel {
+        padding: 1rem;
+        margin: 1rem;
+    }
+
+    #admin-panel button {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .password-container .login-input {
+        padding-right: 45px;
+    }
+
+    .password-toggle {
+        right: 10px;
+        font-size: 14px;
+    }
+
+    .input-group {
+        margin-bottom: 18px;
+    }
+
+    .password-hint {
+        font-size: 11px;
     }
 }

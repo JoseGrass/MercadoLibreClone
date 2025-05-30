@@ -10,6 +10,11 @@
 <body>
     <!-- Header -->
     <header class="header">
+        <div id="auth"></div>
+        <nav>
+            <!-- Botón admin visible para pruebas -->
+            <button id="admin-btn">Panel Admin</button>
+        </nav>
         <div class="header-container">
             <div class="header-top">
                 <div class="header-left">
@@ -65,10 +70,7 @@
         <span>🎉 Envío gratis desde $ 149.000 💫 Solo por hoy 🎉</span>
     </div>
 
-    <!-- Auth Container (COMENTADO - SISTEMA ANTERIOR DE LOGIN) -->
-    <!-- <div id="auth" style="display: none;"></div> -->
-
-    <!-- Login Modal (NUEVO SISTEMA DE LOGIN ESTILO MERCADOLIBRE) -->
+    <!-- Login Modal (CON CAMPO DE CONTRASEÑA AGREGADO) -->
     <div id="loginModal" class="login-modal" style="display: none;">
         <div class="login-modal-overlay"></div>
         <div class="login-modal-content">
@@ -78,7 +80,7 @@
             
             <div class="login-container">
                 <div class="login-left">
-                    <h2>Ingresa tu e-mail o teléfono para iniciar sesión</h2>
+                    <h2>Ingresa tu e-mail y contraseña para iniciar sesión</h2>
                     <div class="security-info">
                         <i class="fas fa-shield-alt"></i>
                         <span>Tengo un problema de seguridad</span>
@@ -97,10 +99,28 @@
                                 type="text" 
                                 id="emailPhone" 
                                 name="emailPhone"
-                                placeholder=""
+                                placeholder="Ingresa tu email o teléfono"
                                 required
                                 class="login-input"
                             >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="loginPassword">Contraseña</label>
+                            <div class="password-container">
+                                <input 
+                                    type="password" 
+                                    id="loginPassword" 
+                                    name="loginPassword"
+                                    placeholder="Ingresa tu contraseña"
+                                    required
+                                    minlength="8"
+                                    class="login-input"
+                                >
+                                <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
                         </div>
                         
                         <button type="submit" class="login-btn-primary">
@@ -116,7 +136,7 @@
                         </div>
                         
                         <button type="button" class="login-btn-google">
-                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE3LjY0IDkuMjA0NTVDMTcuNjQgOC41NjY4MiAxNy41ODI3IDcuOTUyMjcgMTcuNDc2NCA3LjM2MzY0SDE5VjkuMTM2MzZIMTQuMjA5MUMxNC4zOTU1IDEwLjIxNTkgMTQuMTk1NSAxMS4yMjczIDEzLjY4IDE4LjEwOTFDMTQuOTc3MyA3LjAzNjM2IDE2LjEwNDUgNi4yNzI3MyAxNy42NCA5LjIwNDU1WiIgZmlsbD0iIzQyODVGNCIvPgo8cGF0aCBkPSJNOSAxMS43MjczQzEwLjIzNjQgMTEuNzI3MyAxMS4zNDA5IDExLjMwNDUgMTIuMjM2NCAxMC42NDA5TDEzLjY4IDE4LjEwOTFDMTIuNjc3MyAxMS43MjczIDEwLjk5MDkgMTIuNzI3MyA5IDEyLjcyNzNDNy4wMDkwOSAxMi43MjczIDUuMzIyNzMgMTEuNzI3MyA0LjMyIDEwLjEwOTFMNi40IDguMzE4MThDNi44NjM2NCA5LjY0MDkxIDcuNzk1NDUgMTAuNzI3MyA5IDEwLjcyNzNaIiBmaWxsPSIjMzRBODUzIi8+CjxwYXRoIGQ9Ik05IDMuMjcyNzNDMTAuMzQwOSAzLjI3MjczIDExLjU1NDUgMy44MDkwOSAxMi40NzI3IDQuNjY4MThMMTQuNCA2LjZDMTIuNjQgNC44NCA5LjkgNCA5IDRDNy4wMDkwOSA0IDUuMzIyNzMgNS4yNzI3MyA0LjMyIDYuMTA5MDlMNi40IDcuOTAwOTFDNi44NjM2NCA2LjU0NTQ1IDcuNzk1NDUgNS4yNzI3MyA5IDMuMjcyNzNaIiBmaWxsPSIjRkJCQzA0Ii8+Cjxwb3RoIGQ9Ik05IDcuNzI3MjdDNy4wMDkwOSA3LjcyNzI3IDUuMzIyNzMgNi43MjcyNyA0LjMyIDUuMTA5MDlMNC4zMiA1LjEwOTA5QzMuNzM2MzYgNS42ODQgMy4yNzI3MyA2LjQgMy4yNzI3MyA3LjcyNzI3QzMuMjcyNzMgNy44MTgyIDMuMzI1NDQgNy45MTczIDMuMzI1NDQgOC4wOTA5TDYuNCA4LjMxODE4QzYuODYzNjQgNy4wMDkwOSA3Ljc5NTQ1IDcuNzI3MjcgOSA3LjcyNzI3WiIgZmlsbD0iI0VCNDU0MyIvPgo8L3N2Zz4K" alt="Google" class="google-icon">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE3LjY0IDkuMjA0NTVDMTcuNjQgOC41NjY4MiAxNy41ODI3IDcuOTUyMjcgMTcuNDc2NCA3LjM2MzY0SDE5VjkuMTM2MzZIMTQuMjA5MUMxNC4zOTU1IDEwLjIxNTkgMTQuMTk1NSAxMS4yMjczIDEzLjY4IDE4LjEwOTFDMTQuOTc3MyA3LjAzNjM2IDE2LjEwNDUgNi4yNzI3MyAxNy42NCA5LjIwNDU1WiIgZmlsbD0iIzQyODVGNCIvPgo8cGF0aCBkPSJNOSAxMS43MjczQzEwLjIzNjQgMTEuNzI3MyAxMS4zNDA5IDExLjMwNDUgMTIuMjM2NCAxMC42NDA5TDEzLjY4IDE4LjEwOTFDMTIuNjc3MyAxMS43MjczIDEwLjk5MDkgMTIuNzI3MyA5IDEyLjcyNzNDNy4wMDkwOSAxMi43MjczIDUuMzIyNzMgMTEuNzI3MyA0LjMyIDEwLjEwOTFMNi40IDguMzE4MThDNi44NjM2NCA5LjY0MDkxIDcuNzk1NDUgMTAuNzI3MyA5IDEwLjcyNzNaIiBmaWxsPSIjMzRBODUzIi8+CjxwYXRoIGQ9Ik05IDMuMjcyNzNDMTAuMzQwOSAzLjI3MjczIDExLjU1NDUgMy44MDkwOSAxMi40NzI3IDQuNjY4MThMMTQuNCA2LjZDMTIuNjQgNC44NCA5LjkgNCA5IDRDNy4wMDkwOSA0IDUuMzIyNzMgNS4yNzI3MyA0LjMyIDYuMTA5MDlMNi40IDcuOTAwOTFDNi44NjM2NCA2LjU0NTQ1IDcuNzk1NDUgNS4yNzI3MyA5IDMuMjcyNzNaIiBmaWxsPSIjRkJCQzA0Ii8+Cjxwb3RoIGQ9Ik05IDcuNzI3MjdDNy4wMDkwOSA3LjcyNzI3IDUuMzIyNzMgNi43MjcyNyA4LjMyIDUuMTA5MDlMNC4zMiA1LjEwOTA5QzMuNzM2MzYgNS42ODQgMy4yNzI3MyA2LjQgMy4yNzI3MyA3LjcyNzI3QzMuMjcyNzMgNy44MTgyIDMuMzI1NDQgNy45MTczIDMuMzI1NDQgOC4wOTA5TDYuNCA4LjMxODE4QzYuODYzNjQgNy4wMDkwOSA3Ljc5NTQ1IDcuNzI3MjcgOSA3LjcyNzI3WiIgZmlsbD0iI0VCNDU0MyIvPgo8L3N2Zz4K" alt="Google" class="google-icon">
                             <span>Iniciar sesión con Google</span>
                         </button>
                     </form>
@@ -125,10 +145,10 @@
         </div>
     </div>
 
-    <!-- Register Modal (NUEVO MODAL DE REGISTRO) -->
+    <!-- Register Modal (CON CONTRASEÑA Y ROL AGREGADOS) -->
     <div id="registerModal" class="login-modal" style="display: none;">
         <div class="login-modal-overlay"></div>
-        <div class="login-modal-content">
+        <div class="login-modal-content register-modal-expanded">
             <button class="login-modal-close" id="closeRegisterModal">
                 <i class="fas fa-times"></i>
             </button>
@@ -175,6 +195,25 @@
                         </div>
 
                         <div class="input-group">
+                            <label for="registerPassword">Contraseña</label>
+                            <div class="password-container">
+                                <input 
+                                    type="password" 
+                                    id="registerPassword" 
+                                    name="registerPassword"
+                                    placeholder="Mínimo 8 caracteres"
+                                    required
+                                    minlength="8"
+                                    class="login-input"
+                                >
+                                <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <small class="password-hint">Debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número</small>
+                        </div>
+
+                        <div class="input-group">
                             <label for="registerBirthdate">Fecha de nacimiento</label>
                             <input 
                                 type="date" 
@@ -196,6 +235,21 @@
                                 class="login-input"
                             >
                         </div>
+
+                        <div class="input-group">
+                            <label for="registerRole">Tipo de cuenta</label>
+                            <select 
+                                id="registerRole" 
+                                name="registerRole"
+                                required
+                                class="login-input select-input"
+                            >
+                                <option value="">Selecciona el tipo de cuenta</option>
+                                <option value="comprador">Comprador</option>
+                                <option value="vendedor">Vendedor</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                        </div>
                         
                         <button type="submit" class="login-btn-primary">
                             Crear cuenta
@@ -211,11 +265,32 @@
                         </div>
                         
                         <button type="button" class="login-btn-google">
-                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE3LjY0IDkuMjA0NTVDMTcuNjQgOC41NjY4MiAxNy41ODI3IDcuOTUyMjcgMTcuNDc2NCA3LjM2MzY0SDE5VjkuMTM2MzZIMTQuMjA5MUMxNC4zOTU1IDEwLjIxNTkgMTQuMTk1NSAxMS4yMjczIDEzLjY4IDE4LjEwOTFDMTQuOTc3MyA3LjAzNjM2IDE2LjEwNDUgNi4yNzI3MyAxNy42NCA5LjIwNDU1WiIgZmlsbD0iIzQyODVGNCIvPgo8cGF0aCBkPSJNOSAxMS43MjczQzEwLjIzNjQgMTEuNzI3MyAxMS4zNDA5IDExLjMwNDUgMTIuMjM2NCAxMC42NDA5TDEzLjY4IDE4LjEwOTFDMTIuNjc3MyAxMS43MjczIDEwLjk5MDkgMTIuNzI3MyA5IDEyLjcyNzNDNy4wMDkwOSAxMi43MjczIDUuMzIyNzMgMTEuNzI3MyA0LjMyIDEwLjEwOTFMNi40IDguMzE4MThDNi44NjM2NCA5LjY0MDkxIDcuNzk1NDUgMTAuNzI3MyA5IDEwLjcyNzNaIiBmaWxsPSIjMzRBODUzIi8+CjxwYXRoIGQ9Ik05IDMuMjcyNzNDMTAuMzQwOSAzLjI3MjczIDExLjU1NDUgMy44MDkwOSAxMi40NzI3IDQuNjY4MThMMTQuNCA2LjZDMTIuNjQgNC44NCA5LjkgNCA5IDRDNy4wMDkwOSA0IDUuMzIyNzMgNS4yNzI3MyA0LjMyIDYuMTA5MDlMNi40IDcuOTAwOTFDNi44NjM2NCA2LjU0NTQ1IDcuNzk1NDUgNS4yNzI3MyA5IDMuMjcyNzNaIiBmaWxsPSIjRkJCQzA0Ii8+Cjxwb3RoIGQ9Ik05IDcuNzI3MjdDNy4wMDkwOSA3LjcyNzI3IDUuMzIyNzMgNi43MjcyNyA0LjMyIDUuMTA5MDlMNC4zMiA1LjEwOTA5QzMuNzM2MzYgNS42ODQgMy4yNzI3MyA2LjQgMy4yNzI3MyA3LjcyNzI3QzMuMjcyNzMgNy44MTgyIDMuMzI1NDQgNy45MTczIDMuMzI1NDQgOC4wOTA5TDYuNCA4LjMxODE4QzYuODYzNjQgNy4wMDkwOSA3Ljc5NTQ1IDcuNzI3MjcgOSA3LjcyNzI3WiIgZmlsbD0iI0VCNDU0MyIvPgo8L3N2Zz4K" alt="Google" class="google-icon">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE3LjY0IDkuMjA0NTVDMTcuNjQgOC41NjY4MiAxNy41ODI3IDcuOTUyMjcgMTcuNDc2NCA3LjM2MzY0SDE5VjkuMTM2MzZIMTQuMjA5MUMxNC4zOTU1IDEwLjIxNTkgMTQuMTk1NSAxMS4yMjczIDEzLjY4IDE4LjEwOTFDMTQuOTc3MyA3LjAzNjM2IDE2LjEwNDUgNi4yNzI3MyAxNy42NCA5LjIwNDU1WiIgZmlsbD0iIzQyODVGNCIvPgo8cGF0aCBkPSJNOSAxMS43MjczQzEwLjIzNjQgMTEuNzI3MyAxMS4zNDA5IDExLjMwNDUgMTIuMjM2NCAxMC42NDA5TDEzLjY4IDE4LjEwOTFDMTIuNjc3MyAxMS43MjczIDEwLjk5MDkgMTIuNzI3MyA5IDEyLjcyNzNDNy4wMDkwOSAxMi43MjczIDUuMzIyNzMgMTEuNzI3MyA4LjMyIDEwLjEwOTFMNi40IDguMzE4MThDNi44NjM2NCA5LjY0MDkxIDcuNzk1NDUgMTAuNzI3MyA5IDEwLjcyNzNaIiBmaWxsPSIjMzRBODUzIi8+CjxwYXRoIGQ9Ik05IDMuMjcyNzNDMTAuMzQwOSAzLjI3MjczIDExLjU1NDUgMy44MDkwOSAxMi40NzI3IDQuNjY4MThMMTQuNCA2LjZDMTIuNjQgNC44NCA5LjkgNCA5IDRDNy4wMDkwOSA0IDUuMzIyNzMgNS4yNzI3MyA4LjMyIDYuMTA5MDlMNi40IDcuOTAwOTFDNi44NjM2NCA2LjU0NTQ1IDcuNzk1NDUgNS4yNzI3MyA5IDMuMjcyNzNaIiBmaWxsPSIjRkJCQzA0Ii8+Cjxwb3RoIGQ9Ik05IDcuNzI3MjdDNy4wMDkwOSA3LjcyNzI3IDUuMzIyNzMgNi43MjcyNyA4LjMyIDUuMTA5MDlMNC4zMiA1LjEwOTA5QzMuNzM2MzYgNS42ODQgMy4yNzI3MyA2LjQgMy4yNzI3MyA3LjcyNzI3QzMuMjcyNzMgNy44MTgyIDMuMzI1NDQgNy45MTczIDMuMzI1NDQgOC4wOTA5TDYuNCA4LjMxODE4QzYuODYzNjQgNy4wMDkwOSA3Ljc5NTQ1IDcuNzI3MjcgOSA3LjcyNzI3WiIgZmlsbD0iI0VCNDU0MyIvPgo8L3N2Zz4K" alt="Google" class="google-icon">
                             <span>Registrarse con Google</span>
                         </button>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div id="adminModal" class="login-modal" style="display: none;">
+        <div class="login-modal-overlay"></div>
+        <div class="login-modal-content admin-modal-content">
+            <button class="login-modal-close" id="closeAdminModal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div id="admin-panel">
+                <h2>Panel de Administración de Productos</h2>
+                <div>
+                    <button id="btnCrear">Crear Producto</button>
+                    <button id="btnActualizar">Actualizar Producto</button>
+                    <button id="btnEliminar">Eliminar Producto</button>
+                </div>
+                <div id="form-container"></div>
+                <pre id="output"></pre>
             </div>
         </div>
     </div>
@@ -251,9 +326,9 @@
                                 </div>
                             </div>
                             <div class="brands-row">
-                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCA0MCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwIDEwQzIwIDE1LjUyMjggMTUuNTIyOCAyMCAxMCAyMEM0LjQ3NzE1IDIwIDAgMTUuNTIyOCAwIDEwQzAgNC40NzcxNSA0LjQ3NzE1IDAgMTAgMEMxNS41MjI4IDAgMjAgNC40NzcxNSAyMCAxMFoiIGZpbGw9ImJsYWNrIi8+Cjx0ZXh0IHg9IjEwIiB5PSIxNCIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5OSUtFPC90ZXh0Pgo8L3N2Zz4K" alt="Nike" class="brand-logo">
-                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCA0MCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMEg0MFYyMEgwVjBaIiBmaWxsPSJibGFjayIvPgo8dGV4dCB4PSIyMCIgeT0iMTQiIGZpbGw9IndoaXRlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QURJREFTPC90ZXh0Pgo8L3N2Zz4K" alt="Adidas" class="brand-logo">
-                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCA0MCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMEg0MFYyMEgwVjBaIiBmaWxsPSJibGFjayIvPgo8dGV4dCB4PSIyMCIgeT0iMTQiIGZpbGw9IndoaXRlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UFVNQTWVC90ZXh0Pgo8L3N2Zz4K" alt="Puma" class="brand-logo">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCA0MCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwIDEwQzIwIDE1LjUyMjggMTUuNTIyOCAyMCAxMCAyMEM4LjQ3NzE1IDIwIDAgMTUuNTIyOCAwIDEwQzAgNC40NzcxNSA4LjQ3NzE1IDAgMTAgMEMxNS41MjI4IDAgMjAgNC40NzcxNSAyMCAxMFoiIGZpbGw9ImJsYWNrIi8+Cjx0ZXh0IHg9IjEwIiB5PSIxNCIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5OSUtFPC90ZXh0Pgo8L3N2Zz4K" alt="Nike" class="brand-logo">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCA0MCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMEg4MFYyMEgwVjBaIiBmaWxsPSJibGFjayIvPgo8dGV4dCB4PSIyMCIgeT0iMTgiIGZpbGw9IndoaXRlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QURJREFTPC90ZXh0Pgo8L3N2Zz4K" alt="Adidas" class="brand-logo">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCA0MCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMEg4MFYyMEgwVjBaIiBmaWxsPSJibGFjayIvPgo8dGV4dCB4PSIyMCIgeT0iMTgiIGZpbGw9IndoaXRlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UFVNQTWVC90ZXh0Pgo8L3N2Zz4K" alt="Puma" class="brand-logo">
                             </div>
                             <div class="terms-text">Ver TyC: https://listado.mercadolibre.com.co/ofertas/super-ofertas-6-6</div>
                         </div>
@@ -329,7 +404,7 @@
             </div>
         </section>
 
-        <!-- Beneficios Section (Separada) -->
+        <!-- Beneficios Section -->
         <section class="benefits-section">
             <div class="benefits-grid">
                 <div class="benefit-card">
@@ -501,15 +576,9 @@
             </div>
         </section>
 
-        <!-- Products Grid (se mantiene el ID para integración con Supabase) -->
-        <section class="products-section">
-            <h2 class="section-title">Basado en tu última visita</h2>
-            <div class="products-grid" id="app">
-                <!-- Los productos de Supabase se cargarán aquí -->
-            </div>
-        </section>
+        <div id="app"></div>
     </main>
-
+ <aside class=".formulario-login" ></aside>
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
@@ -558,6 +627,104 @@
     </footer>
 
     <!-- Scripts -->
+    <script>
+        // Función para mostrar/ocultar contraseña
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Función para el carousel
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const totalSlides = slides.length;
+
+        function updateCarousel() {
+            const track = document.getElementById('carouselTrack');
+            if (track) {
+                track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+                
+                // Update navigation dots
+                const dots = document.querySelectorAll('.nav-dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlideIndex);
+                });
+            }
+        }
+
+        function nextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlideIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function currentSlide(index) {
+            currentSlideIndex = index - 1;
+            updateCarousel();
+        }
+
+        // Auto slide cada 5 segundos
+        setInterval(nextSlide, 5000);
+
+        // Event listeners cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Event listener para el botón admin
+            const adminBtn = document.getElementById('admin-btn');
+            if (adminBtn) {
+                adminBtn.addEventListener('click', function() {
+                    const adminModal = document.getElementById('adminModal');
+                    if (adminModal) {
+                        adminModal.style.display = 'flex';
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            }
+
+            // Event listener para cerrar modal admin
+            const closeAdminBtn = document.getElementById('closeAdminModal');
+            if (closeAdminBtn) {
+                closeAdminBtn.addEventListener('click', function() {
+                    const adminModal = document.getElementById('adminModal');
+                    if (adminModal) {
+                        adminModal.style.display = 'none';
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+
+            // Event listener para overlay del modal admin
+            const adminModal = document.getElementById('adminModal');
+            if (adminModal) {
+                const adminOverlay = adminModal.querySelector('.login-modal-overlay');
+                if (adminOverlay) {
+                    adminOverlay.addEventListener('click', function() {
+                        adminModal.style.display = 'none';
+                        document.body.style.overflow = '';
+                    });
+                }
+            }
+        });
+
+        // Hacer las funciones globales
+        window.togglePassword = togglePassword;
+        window.nextSlide = nextSlide;
+        window.prevSlide = prevSlide;
+        window.currentSlide = currentSlide;
+    </script>
     <script type="module">
         import { checkAuth } from './src/routes/auth.js'
         import './src/main.js'
@@ -566,5 +733,6 @@
         // Mantener funcionalidad de auth de Supabase
         checkAuth()
     </script>
+    <script type="module" src="./src/main.js"></script>
 </body>
 </html>

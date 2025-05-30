@@ -148,3 +148,84 @@ footer {
   color: #28a745;
   font-size: 1rem;
 }
+/* Estilo general del login */
+.formulario-login {
+  max-width: 400px;
+  margin: 2rem auto;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #ffe600;
+}
+
+.formulario-login h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+.formulario-login form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formulario-login input[type="email"],
+.formulario-login input[type="password"] {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border-color 0.2s;
+}
+
+.formulario-login input:focus {
+  border-color: #3483fa;
+  outline: none;
+}
+
+.formulario-login button {
+  background-color: #3483fa;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.formulario-login button:hover {
+  background-color: #2968c8;
+}
+
+.formulario-login #btn-registro {
+  margin-top: 1rem;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.formulario-login #btn-registro:hover {
+  background-color: #e0e0e0;
+}
+.formulario-login input[type="text"],
+.formulario-login input[type="date"],
+.formulario-login input[type="tel"],
+.formulario-login select {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border-color 0.2s;
+}
+
+.formulario-login select:focus,
+.formulario-login input[type="text"]:focus,
+.formulario-login input[type="date"]:focus,
+.formulario-login input[type="tel"]:focus {
+  border-color: #3483fa;
+  outline: none;
+}

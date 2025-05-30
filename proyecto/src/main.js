@@ -1,4 +1,6 @@
 import { supabase } from './supabase.js'
+import { mostrarLogin } from './routes/login.js'
+
 
 const app = document.getElementById('app')
 
@@ -36,5 +38,41 @@ function renderProducts(products) {
   app.innerHTML = `<div class="product-list">${productHTML}</div>`
 }
 
-// Ejecuta al cargar
-fetchProducts()
+// Función principal para mostrar contenido general (ejemplo)
+window.General = function() {
+  fetchProducts()
+}
+
+// Función para mostrar datos de usuario (ejemplo)
+window.mostrarDatos = function() {
+  app.innerHTML = `<h2>Datos del usuario</h2><p>Contenido de usuario aquí...</p>`
+}
+
+// Evento al cargar DOM
+document.addEventListener('DOMContentLoaded', async () => {
+  const user = await validarSesion()
+  if (!user) {
+    // Usuario no autenticado
+    mostrarLogin()
+  } else {
+    console.log('Usuario logueado:', user.email)
+    General() // Carga contenido general
+    document.querySelector(".c-nav").innerHTML = `
+      <button class="c-nav-item" onclick="General()">Home</button>
+      <button class="c-nav-item" onclick="mostrarDatos()">Usuario</button>
+      <button class="c-nav-item" id="logoutBtn">Cerrar sesión</button>
+    `
+
+    // Agregar listener para cerrar sesión
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await supabase.auth.signOut()
+      location.reload()
+    })
+  }
+})
+
+// Función para validar sesión actual
+async function validarSesion() {
+  const { data: { session } } = await supabase.auth.getSession()
+  return session?.user || null
+}

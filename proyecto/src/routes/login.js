@@ -4,18 +4,7 @@ import { mostrarRegistro } from "./registro.js";  // Descomentar para poder llam
 export function mostrarLogin() {
   const app = document.querySelector("#app");
 
-  app.innerHTML = `
-    <aside class="formulario-login">
-      <h2>Iniciar sesión</h2>
-      <form id="login-form">
-        <input type="email" id="email" placeholder="Correo electrónico" required />
-        <input type="password" id="password" placeholder="Contraseña" required />
-        <button type="submit">Ingresar</button>
-      </form>
-      <h2>¿No tienes cuenta?</h2>
-      <button id="btn-registro">Regístrate</button>
-    </aside>
-  `;
+  
 
   // Manejo del login
   const form = document.querySelector("#login-form");
